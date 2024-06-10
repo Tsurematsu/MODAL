@@ -9,7 +9,7 @@ export default async function tab5Action({elementContainer, files = [], onSave=(
     elementContainer.parentNode.insertBefore(ModalElement, elementContainer.nextSibling);
     elementContainer.remove();
     const elementModal = document.getElementById(idModal);
-    
+    elementModal.style.display = 'none';
     elementModal.querySelector('.tab5-action').addEventListener('submit', event => {
         event.preventDefault();
     })
@@ -65,5 +65,11 @@ export default async function tab5Action({elementContainer, files = [], onSave=(
         });
         
     })
-
+    
+    return {
+        element: ModalElement,
+        form: elementModal.querySelector('.tab5-action'),
+        close: () => elementModal.style.display = 'none',
+        open: () => elementModal.style.display = 'flex',
+    }
 }

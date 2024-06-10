@@ -12,4 +12,7 @@ tab5Action({
     onCancel: ()=>{
         
     },
-})
+}).then((objectModal)=>{
+    document.getElementById('open').addEventListener('click', objectModal.open);
+    document.getElementById('close').addEventListener('click', objectModal.close);
+});
