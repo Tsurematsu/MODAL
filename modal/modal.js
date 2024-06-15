@@ -36,7 +36,6 @@ export default new function(){
         this.loadData = (formObject)=>{
             Object.entries(formObject).forEach(([element, value]) => {
                 const input = ElementModal.querySelector(`*[name="${element.split(config.separador)[0]}"]`);
-                console.log(input,"->" , input.type);
                 if (input!==null) {
                     if (input.type == 'file') {
                         input.files = value;
@@ -73,10 +72,8 @@ export default new function(){
                         input.value = value;
                     }
                 }
+
             });
-            // [...element.querySelector('form')].forEach((item)=>{
-            //     console.log(item);
-            // });
         }
     }
 }
