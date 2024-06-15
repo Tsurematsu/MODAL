@@ -15,34 +15,34 @@ export default new function(){
             this.class = `${config.classContainer}_${Math.random().toString(36).substring(7)}`;
             const HTMLmodal = await getArchive(config.html);
             const TEXTstyles = await getArchive(config.styles);
-            const ElementModal = document.createElement('div');
-            const elementStyle = document.createElement('style');
-            elementStyle.innerHTML = `.${this.class}{\n ${TEXTstyles}\n}`;
-            ElementModal.innerHTML = HTMLmodal;
-            ElementModal.classList.add(this.class);
-            element.appendChild(ElementModal);
-            element.appendChild(elementStyle);
+            const contenedor = document.createElement('div');
+            const estilos = document.createElement('style');
+            estilos.innerHTML = `.${this.class}{\n ${TEXTstyles}\n}`;
+            contenedor.innerHTML = HTMLmodal;
+            contenedor.classList.add(this.class);
+            element.appendChild(contenedor);
+            element.appendChild(estilos);
             this.Modales.push({
-                element: element,
-                elementModal: ElementModal,
-                elementStyle: elementStyle,
-                properties: new Modal({element, ElementModal, elementStyle}),
+                element,
+                contenedor,
+                estilos,
+                properties: new Modal({element, ElementModal: contenedor, elementStyle: estilos}),
             });
         }
         this.ultimoModal = this.Modales[this.Modales.length - 1];
         resolve(this);
     });
     function Modal({element, ElementModal, elementStyle}){
-        this.loadData = (formObject)=>{
+        this.fillForm = (formObject)=>{
             Object.entries(formObject).forEach(([element, value]) => {
                 const input = ElementModal.querySelector(`*[name="${element.split(config.separador)[0]}"]`);
                 if (input!==null) {
+                    // console.log('input -> ', input.type, ' -> ', input, ' -> ', value);
                     if (input.type == 'file') {
                         input.files = value;
                     }else if (input.type == 'checkbox') {
                         input.checked = value;
                     }else if (input.type == 'radio') {
-                        console.log('radio -> ' , value, ' -> ', input);
                         input.innerHTML = '';
                         value.options.forEach((item, index)=>{
                             const radio = document.createElement('input');
@@ -68,8 +68,12 @@ export default new function(){
                             if (item == value.selected) {option.selected = true;} else if (index == value.selected) {option.selected = true;}
                             input.appendChild(option);
                         });
-                    }else{
+                    }else if(input.type == undefined) {
+                        input.innerHTML = value;
+                    }else if(input.type == 'text') {
                         input.value = value;
+                    }else if(input.type == 'button') {
+                        input.addEventListener('click', value);
                     }
                 }
 

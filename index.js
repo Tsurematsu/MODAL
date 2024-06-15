@@ -7,13 +7,19 @@
 import modal from './modal/modal.js';
 const main = async function(){
     await modal.LoadModal();
-    modal.Modales[0].properties.loadData({
+    modal.Modales[0].properties.fillForm({
+        titulo: 'Hola mundo',
         name: 'juan',
         email: 'fakeEmail@gmail.com',
         kaka: false,
         selection: {options:['hola', 'gato', 'perro'], selected: 0},
         radio1: {options:['hola a todos', 'gato', 'perro'], selected: 0},
+        aceptar: ()=>{console.log("aceptar botón");},
+        cancelar: ()=>{console.log("cancelar botón");},
     })
+
+    
+
 }
 main();
 
